@@ -306,26 +306,6 @@ def byacademicprofile():
     # Display the form
     return render_template('byacademicprofile.html')
 
-# @app.route('/byacademicprofile',methods=['POST'])
-# def byacademicprofile():
-#    # mendapatkan file JSON yang dikirim oleh front-end dan disimpan dengan variabel content
-#    content=request.get_json(force=True)
-#
-#    # memanggil fungsi byacademicprofile dengan parameter content
-#    byacademicprofile = recommend_by_academicprofile.byacademicprofile(content)
-#
-#    # mengubah python object menjadi json string untuk dikirim ke front-end
-#    byacademicprofile=json.dumps(byacademicprofile)
-#
-#    print(byacademicprofile)
-#
-#    response = app.response_class(
-#        response=byacademicprofile,
-#        status=200,
-#        mimetype='application/json'
-#    )
-#    return response
-
 
 @app.route('/result_bykeyword', methods=['POST'])
 def result():
