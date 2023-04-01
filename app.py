@@ -102,22 +102,20 @@ def recommend_by_academicprofile(inputan):
     # LOAD DATASET SILABUS
     dataset_silabus = pd.read_excel('Dataset Silabus.xlsx')
     list_mata_kuliah = dataset_silabus['Course Name']
-    list_silabus_data = dataset['Syllabus']
+    list_silabus_data = dataset_silabus['Syllabus']
 
     list_mata_kuliah = np.array(list_mata_kuliah)
-    list_silabus_data = np.array(list_silabus)
+    list_silabus_data = np.array(list_silabus_data)
 
     # input yang didapat dari front end
-    input = np.array(inputan)
     mata_kuliah_pilihan = []
     nilai_mata_kuliah = []
 
-    # memasukkan mata kuliah dan nilainya ke dalam list
-    for i in range(input.size):
-        if (i < input.size/2):
-            mata_kuliah_pilihan.append(input[i])
-        else:
-            nilai_mata_kuliah.append(float(input[i]))
+    for input in inputan:
+        print(input)
+        mata_kuliah_pilihan.append(input['matkul'])
+        nilai_mata_kuliah.append(input['nilai'])
+
     mata_kuliah_pilihan = np.array(mata_kuliah_pilihan)
     nilai_mata_kuliah = np.array(nilai_mata_kuliah)
 
@@ -303,17 +301,9 @@ def bykeyword():
         return render_template('bykeyword.html')
 
 
-@app.route('/byacademicprofile', methods=['GET', 'POST'])
+@app.route('/byacademicprofile', methods=['GET'])
 def byacademicprofile():
-    # if request.method == 'POST':
-    #        # Retrieve data from the form and process it
-    #        academic_level = request.form['academic_level']
-    #        field_of_study = request.form['field_of_study']
-    #        # Do something with this data, such as saving it to a database or calculating a result
-    #        result = recommend_by_academicprofile(field_of_study, academic_level)
-    #        return render_template('result.html', result=result)
-    #    else:
-    #        # Display the form
+    # Display the form
     return render_template('byacademicprofile.html')
 
 # @app.route('/byacademicprofile',methods=['POST'])
@@ -352,15 +342,9 @@ def result():
 
 @app.route('/result_byacademicprofile', methods=['POST'])
 def result_byacademicprofile():
-    # Get the user input from the form
-    academic_profile = request.form['academic_profile']
-
-    # Call the recommender function to get the recommendations
-    recommendations = recommend_by_academic_profile(academic_profile)
-    unique_keywords = get_keyword(recommendations)
-
-    # Render the result.html template with the recommendations
-    return render_template('result.html', recommendations=recommendations, unique_keywords=unique_keywords)
+    print(request.json)
+    result = recommend_by_academicprofile(request.json)
+    return render_template('result.html', result=result)
 
 
 if __name__ == '__main__':
